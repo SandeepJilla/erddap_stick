@@ -41,7 +41,7 @@ def fetch_and_plot(config):
         df['time (UTC)'] = pd.to_datetime(df['time (UTC)'])
         df = df.dropna(subset=[f'sea_water_speed_{suffix} (cm s-1)', f'sea_water_direction_{suffix} (degree)'])
         df[f'sea_water_speed_{suffix} (cm s-1)'] /= 100.0  # Convert cm/s to m/s
-
+        df = df.dropna(subset=[f'sea_water_speed_{instrument}', f'sea_water_direction_{instrument}'])
         if df.empty:
             print(f"No data available for depths between {depth_range[0]}m and {depth_range[1]}m.")
             return
