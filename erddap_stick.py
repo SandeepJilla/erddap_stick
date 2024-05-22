@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Original file is located at
-    https://colab.research.google.com/drive/1y44tXYsR1C7fYgaZUKAH3B6tetlBsR7w
-"""
-
 import yaml
 from erddapy import ERDDAP
 import pandas as pd
@@ -37,10 +32,8 @@ def fetch_and_plot(config):
         f"latitude",
         f"longitude",
         f"depth",
-        f"ocean_currents_instrument_{suffix}",
         f"sea_water_speed_{suffix}",
         f"sea_water_direction_{suffix}",
-        f"upward_sea_water_velocity_{suffix}",
     ]
 
     try:
