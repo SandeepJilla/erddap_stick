@@ -64,7 +64,7 @@ def fetch_and_plot(config):
         df = df.dropna(subset=[f'sea_water_speed_{instrument}', f'sea_water_direction_{instrument}'])
 
         if df.empty:
-            print(f"No data available for depths between {depth_range[0]}m and {depth_range[1]}m.")
+            print(f"No data available for depths between {depth_range[0]} m and {depth_range[1]} m.")
             return
 
         df = df[(df['depth'] >= depth_range[0]) & (df['depth'] <= depth_range[1])]
@@ -104,14 +104,14 @@ def fetch_and_plot(config):
                           color=colors, scale=20, width=0.001, headlength=0, headwidth=0, headaxislength=0)
 
             annotation_x_position = global_min_time - 0.15
-            ax.text(annotation_x_position, i * y_offset_factor, f'{depth}m', horizontalalignment='right', verticalalignment='center', color="black")
+            ax.text(annotation_x_position, i * y_offset_factor, f'{depth} m', horizontalalignment='right', verticalalignment='center', color="black")
 
         ax.set_xlim(annotation_x_position, global_max_time + 0.2)
         ax.set_ylim(-y_offset_factor, (len(unique_depths) - 1) * y_offset_factor + y_offset_factor)
         ax.axes.get_yaxis().set_visible(False)  # Hide y-axis
         ax.xaxis_date()
 
-        plt.title(f'Stick Plot for Depths from {depth_range[0]}m to {depth_range[1]}m')
+        plt.title(f'Stick Plot for Depths from {depth_range[0]} m to {depth_range[1]} m for {dataset_id}')
         plt.xticks(rotation=45)
         plt.draw()  # Ensure all elements are drawn
 
