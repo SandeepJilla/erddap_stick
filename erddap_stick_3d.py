@@ -75,9 +75,9 @@ def plot_3d_stick(df, date, instrument, depth_units, speed_units):
 
     for i in range(len(df)):
         fig.add_trace(go.Scatter3d(
-            x=[7.5, u.iloc[i]],  # Starting from (0, depth, 0) and going to the u component
-            y=[-2.5, v.iloc[i]],  # Starting from (0, depth, 0) and going to the v component
-            z=[df['depth'].iloc[i], df['depth'].iloc[i]],  # Depth is fixed
+            x=[7.5, u.iloc[i]], 
+            y=[-2.5, v.iloc[i]],  
+            z=[df['depth'].iloc[i], df['depth'].iloc[i]],  
             mode='lines',
             line=dict(color=f'rgba({colors[i][0]*255}, {colors[i][1]*255}, {colors[i][2]*255}, {colors[i][3]})', width=6),
             showlegend=False,  # Disable individual legend entries
@@ -96,7 +96,7 @@ def plot_3d_stick(df, date, instrument, depth_units, speed_units):
             zaxis_title='Depth',
             xaxis=dict(showgrid=False, range=[-max(speeds), max(speeds)]),
             yaxis=dict(showgrid=False, range=[-max(speeds), max(speeds)]),
-            zaxis=dict(showgrid=False, range=[df['depth'].max(), df['depth'].min()])  # Reverse the depth axis
+            zaxis=dict(showgrid=False, range=[df['depth'].max(), df['depth'].min()])  
         ),
         autosize=False,
         width=800,
