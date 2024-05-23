@@ -66,6 +66,10 @@ def plot_3d_stick(df, date, instrument, depth_units, speed_units):
     u = speeds * np.sin(directions_rad)
     v = speeds * np.cos(directions_rad)
 
+    # Calculate midpoints for u and v
+    u_mid = (u.max() + u.min()) / 2
+    v_mid = (v.max() + v.min()) / 2
+
     # Normalize speeds for color mapping
     norm = Normalize(vmin=speeds.min(), vmax=speeds.max())
     cmap = colormaps.get_cmap('viridis')
@@ -75,8 +79,8 @@ def plot_3d_stick(df, date, instrument, depth_units, speed_units):
 
     for i in range(len(df)):
         fig.add_trace(go.Scatter3d(
-            x=[7.5, u.iloc[i]], 
-            y=[-2.5, v.iloc[i]],  
+            x=[u_mid, u.iloc[i]], 
+            y=[v_mid, v.iloc[i]],  
             z=[df['depth'].iloc[i], df['depth'].iloc[i]],  
             mode='lines',
             line=dict(color=f'rgba({colors[i][0]*255}, {colors[i][1]*255}, {colors[i][2]*255}, {colors[i][3]})', width=6),
