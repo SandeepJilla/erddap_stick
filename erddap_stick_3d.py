@@ -35,9 +35,10 @@ def fetch_data(config):
         time = nc.variables['time'][:]
         time_units = nc.variables['time'].units
         time_dates = num2date(time, units=time_units)
-
         depth = nc.variables['depth'][:]
+        depth_units = nc.variables['depth'].units
         sea_water_speed = nc.variables[f'sea_water_speed_{instrument}'][:]
+        speed_units = nc.variables[f'sea_water_speed_{instrument}'].units
         sea_water_direction = nc.variables[f'sea_water_direction_{instrument}'][:]
 
         df = pd.DataFrame({
@@ -47,9 +48,9 @@ def fetch_data(config):
             f'sea_water_direction_{instrument}': sea_water_direction
         })
 
-        return df
+        return df, depth_units, speed_units
 
-def plot_3d_stick(df, date, instrument=0):
+def plot_3d_stick(df, date, instrument, depth_units, speed_units):
     df = df[df['time'] == pd.to_datetime(date)]
     if df.empty:
         print(f"No data available for the specified date: {date}")
@@ -82,13 +83,13 @@ def plot_3d_stick(df, date, instrument=0):
             showlegend=False,  # Disable individual legend entries
             hovertemplate=(
                 f"Date: {df['time'].iloc[i]}<br>"
-                f"Depth: {df['depth'].iloc[i]} m<br>"
-                f"Speed: {speeds.iloc[i]} cm/s<br>"
+                f"Depth: {df['depth'].iloc[i]} {depth_units}<br>"
+                f"Speed: {speeds.iloc[i]} {speed_units}<br>"
             )
         ))
 
     fig.update_layout(
-        title='Sea Water Speed 3D Stick Plot',
+        title='Sea Water Speed 3D Stick Plot for {dataset_id}',
         scene=dict(
             xaxis_title='u (Easting)',
             yaxis_title='v (Northing)',
@@ -107,7 +108,7 @@ def plot_3d_stick(df, date, instrument=0):
 if __name__ == "__main__":
     with open('config_3d.yaml', 'r') as file:
         config = yaml.safe_load(file)
-    data = fetch_data(config)
+    data, depth_units, speed_units = fetch_data(config)
     if data is not None:
-        fig = plot_3d_stick(data, config['target_date'], config['instrument'])
+        fig = plot_3d_stick(data, config['target_date'], config['instrument'], depth_units, speed_units)
         fig.write_html(config['output_filename'])
